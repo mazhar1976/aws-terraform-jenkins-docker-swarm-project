@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InventoryHub | Stock Dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div><span class="brand-mark">IH</span><strong>InventoryHub</strong></div>
+    <span class="status"><i></i> Inventory system</span>
+  </header>
+  <main class="container">
+    <section class="intro">
+      <div><p class="eyebrow">OVERVIEW</p><h1>Inventory dashboard</h1><p class="muted">Monitor products, stock levels and inventory value.</p></div>
+      <button id="refreshBtn" class="secondary">Refresh data</button>
+    </section>
+    <section class="metrics">
+      <article class="metric"><span>Total products</span><strong id="totalProducts">—</strong></article>
+      <article class="metric"><span>Units in stock</span><strong id="totalUnits">—</strong></article>
+      <article class="metric warning"><span>Low-stock products</span><strong id="lowStock">—</strong></article>
+      <article class="metric"><span>Inventory value</span><strong id="inventoryValue">—</strong></article>
+    </section>
+    <section class="panel">
+      <div class="panel-heading"><div><h2>Product inventory</h2><p class="muted">Products currently recorded in the database</p></div></div>
+      <div class="table-wrap"><table><thead><tr><th>SKU</th><th>Product</th><th>Category</th><th>Quantity</th><th>Reorder level</th><th>Unit price</th></tr></thead><tbody id="productsBody"><tr><td colspan="6">Loading products…</td></tr></tbody></table></div>
+      <p id="message" class="message"></p>
+    </section>
+    <section class="panel form-panel">
+      <div class="panel-heading"><div><h2>Add a product</h2><p class="muted">Create a new inventory record</p></div></div>
+      <form id="productForm">
+        <label>SKU<input name="sku" placeholder="e.g. SWEAT-001" required></label>
+        <label>Product name<input name="name" placeholder="e.g. Navy sweatshirt" required></label>
+        <label>Category<input name="category" value="General"></label>
+        <label>Quantity<input name="quantity" type="number" min="0" value="0" required></label>
+        <label>Reorder level<input name="reorder_level" type="number" min="0" value="10" required></label>
+        <label>Unit price (£)<input name="unit_price" type="number" min="0" step="0.01" value="0" required></label>
+        <button type="submit">Add product</button>
+      </form>
+    </section>
+  </main>
+  <footer>InventoryHub · DevOps portfolio application</footer>
+  <script src="/app.js"></script>
+</body>
+</html>
