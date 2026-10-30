@@ -1,0 +1,55 @@
+
+pipeline {
+    agent any
+
+    options {
+        timestamps()
+    }
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo 'Checking out InventoryHub source code'
+                checkout scm
+            }
+        }
+
+        stage('Check Node.js') {
+            steps {
+                sh '''
+                    node --version
+                    npm --version
+                '''
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run Unit Tests') {
+            steps {
+                sh 'npm test'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t inventoryhub:latest .'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'InventoryHub CI pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'InventoryHub CI pipeline failed. Check the console output.'
+        }
+    }
+}
+
