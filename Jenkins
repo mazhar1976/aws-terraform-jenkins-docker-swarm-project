@@ -52,6 +52,24 @@ pipeline {
                 sh 'docker build -t inventoryhub:latest .'
             }
         }
+  
+        stage('Trivy Security Scan') {
+ 	   steps {
+        	sh '''
+            	    trivy --config "" image \
+                      --severity HIGH,CRITICAL \
+                      --exit-code 0 \
+                      --no-progress \
+                      inventoryhub:latest
+
+                    trivy --config "" image \
+                      --severity CRITICAL \
+                      --exit-code 1 \
+                      --no-progress \
+                      inventoryhub:latest
+                '''
+           }
+        }
     }
 
     post {
