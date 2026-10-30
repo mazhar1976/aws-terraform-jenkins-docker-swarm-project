@@ -1,10 +1,10 @@
-
 pipeline {
     agent any
 
     options {
         timestamps()
     }
+
     stages {
 
         stage('Checkout') {
@@ -32,6 +32,14 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 sh 'npm test'
+            }
+        }
+
+        stage('SonarQube Code Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'sonar-scanner'
+                }
             }
         }
 
