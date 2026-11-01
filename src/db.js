@@ -1,9 +1,28 @@
+
 const { Pool } = require('pg');
+const fs = require('fs');
+
+let connectionString = process.env.DATABASE_URL;
+
+if (process.env.DB_PASSWORD_FILE) {
+  const password = fs.readFileSync(
+    process.env.DB_PASSWORD_FILE,
+    'utf8'
+  ).trim();
+
+  connectionString =
+    `postgres://${process.env.DB_USER}:` +
+    `${encodeURIComponent(password)}@` +
+    `${process.env.DB_HOST}:` +
+    `${process.env.DB_PORT || 5432}/` +
+    `${process.env.DB_NAME}`;
+}
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  // Enable SSL explicitly for managed databases when required.
-  ssl: process.env.PGSSL === 'true' ? { rejectUnauthorized: false } : undefined
+  connectionString,
+  ssl: process.env.PGSSL === 'true'
+    ? { rejectUnauthorized: false }
+    : undefined
 });
 
 async function initialiseDatabase() {
@@ -23,3 +42,5 @@ async function initialiseDatabase() {
 }
 
 module.exports = { pool, initialiseDatabase };
+
+
